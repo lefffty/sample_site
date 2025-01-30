@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Главная :: Доска объявлений</title>
+  </head>
+  <body>
+    <h1>Объявления</h1>
+    {% for billboard in billboards %}
+    <div>
+      <h2>{{ billboard.title }}</h2>
+      <p>{{ billboard.content }}</p>
+      <p>{{ billboard.published_at|date:"d.m.Y H:i:s" }}</p>
+    </div>
+    {% endfor %}
+  </body>
+</html>
