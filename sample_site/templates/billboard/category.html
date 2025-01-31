@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{ category_name }} :: Доска объявлений</title>
+  </head>
+  <body>
+    <h1>Объявления в категории {{ category_name }}</h1>
+    {% for billboard in billboards %}
+    <div>
+      <p><b>ID объявления: </b> {{ billboard.id }}</p>
+      <p>Категория: {{ billboard.category.name }}</p>
+      <p>Название: {{ billboard.title }}</p>
+      <p>Описание: {{ billboard.content }}</p>
+      <p>Опубликовано: {{ billboard.published_at|date:"d.m.Y H:i:s" }}</p>
+    </div>
+    {% endfor %}
+  </body>
+</html>

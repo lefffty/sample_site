@@ -9,8 +9,14 @@
     {% for billboard in billboards %}
     <div>
       <h2>{{ billboard.title }}</h2>
-      <p>{{ billboard.content }}</p>
-      <p>{{ billboard.published_at|date:"d.m.Y H:i:s" }}</p>
+      <p>Описание: {{ billboard.content }}</p>
+      <p>
+        Категория:
+        <a href="{% url 'billboard:category_bbs' billboard.category.name %}"
+          >{{ billboard.category.name }}</a
+        >
+      </p>
+      <p>Опубликовано: {{ billboard.published_at|date:"d.m.Y H:i:s" }}</p>
     </div>
     {% endfor %}
   </body>
