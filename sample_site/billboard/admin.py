@@ -10,9 +10,9 @@ class BillBoardAdmin(admin.ModelAdmin):
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name',)
-    list_display_links = ('name',)
-    search_fields = ('name',)
+    list_display = ('title', 'slug')
+    list_display_links = ('title', 'slug')
+    search_fields = ('title', 'slug')
 
 
 admin.site.register(BillBoard, BillBoardAdmin)

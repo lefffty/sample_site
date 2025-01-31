@@ -9,7 +9,7 @@
     {% for billboard in billboards %}
     <div>
       <p><b>ID объявления: </b> {{ billboard.id }}</p>
-      <p>Категория: {{ billboard.category.name }}</p>
+      <p>Категория: {{ billboard.category.title }}</p>
       <p>Название: {{ billboard.title }}</p>
       <p>Описание: {{ billboard.content }}</p>
       <p>Опубликовано: {{ billboard.published_at|date:"d.m.Y H:i:s" }}</p>

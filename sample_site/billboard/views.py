@@ -21,10 +21,10 @@ def index(request) -> HttpResponse:
 def category_list(request, category_name) -> HttpResponse:
     category_nm = get_object_or_404(
         Category,
-        name__exact=category_name,
-    )
+        slug__exact=category_name,
+    ).title
     billboards = BillBoard.objects.filter(
-        category__name__exact=category_name,
+        category__slug__exact=category_name,
     )
     context = {
         'category_name': category_nm,

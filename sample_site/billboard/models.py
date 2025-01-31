@@ -2,15 +2,24 @@ from django.db import models
 
 
 class Category(models.Model):
-    name = models.SlugField(unique=True, verbose_name='Название')
+    title = models.CharField(
+        max_length=25,
+        unique=True,
+        verbose_name='Заголовок'
+    )
+    slug = models.SlugField(
+        unique=True,
+        blank=False,
+        verbose_name='Идентификатор',
+    )
 
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
-        ordering = ['name']
+        ordering = ['slug']
 
     def __str__(self):
-        return self.name
+        return self.title
 
 
 class BillBoard(models.Model):
@@ -35,4 +44,4 @@ class BillBoard(models.Model):
     class Meta:
         verbose_name = 'Объявление'
         verbose_name_plural = 'Объявления'
-        ordering = ['category__name', '-published_at']
+        ordering = ['category__slug', '-published_at']
