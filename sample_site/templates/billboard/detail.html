@@ -15,5 +15,9 @@
   <p>Описание: {{ billboard.content }}</p>
   <p>Цена: {{ billboard.price }} руб.</p>
   <p>Опубликовано: {{ billboard.published_at }}</p>
+  <p>Тип объявления: {{ billboard.get_kind_display }}</p>
+</div>
+<div>
+  <p><a href="">Редактировать объявление</a> <a href="">Удалить объявление</a></p>
 </div>
 {% endblock content %}

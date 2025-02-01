@@ -1,4 +1,8 @@
 from django.db import models
+from django.contrib.auth import get_user_model
+
+
+User = get_user_model()
 
 
 class Category(models.Model):
@@ -23,6 +27,13 @@ class Category(models.Model):
 
 
 class BillBoard(models.Model):
+    class Kinds(models.IntegerChoices):
+        BUY = 1, 'Покупка'
+        SELL = 2, 'Продажа'
+        EXCHANGE = 3, 'Обмен'
+        RENT = 4, 'Аренда'
+        __empty__ = 'Выберите тип публикуемого объявления'
+
     title = models.CharField(max_length=50, verbose_name='Объявление')
     content = models.TextField(verbose_name='Описание')
     price = models.FloatField(verbose_name='Цена')
@@ -36,6 +47,16 @@ class BillBoard(models.Model):
         null=True,
         on_delete=models.PROTECT,
         verbose_name='Категория',
+    )
+    kind = models.SmallIntegerField(
+        choices=Kinds.choices,
+        default=Kinds.__empty__
+    )
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        null=True,
+        verbose_name='Автор объявления',
     )
 
     def __str__(self):
