@@ -1,0 +1,19 @@
+{% extends "layout/base.html" %}
+
+{% block title %}
+Объявление {{ billboard.id }}
+{% endblock title %}
+
+{% block header_name %}
+<h1>Объявление {{ billboard.id }}</h1>
+{% endblock header_name %}
+
+{% block content %}
+<div>
+  <h2>Объявлениe {{ billboard.title }}</h2>
+  <p>Категория: <a href="{% url "billboard:category_bbs" billboard.category.slug %}">{{ billboard.category.title }}</a></p>
+  <p>Описание: {{ billboard.content }}</p>
+  <p>Цена: {{ billboard.price }} руб.</p>
+  <p>Опубликовано: {{ billboard.published_at }}</p>
+</div>
+{% endblock content %}

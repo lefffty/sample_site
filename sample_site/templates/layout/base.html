@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Главная :: Доска объявлений{% endblock title %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
+  </head>
+  <body>
+    {% block header_name %}{% endblock header_name %}
+    <nav>
+      <a href="{% url "billboard:index" %}">Главная </a>
+      {% for category in categories %}
+        <a href="{% url "billboard:category_bbs" category.slug %}">{{ category.title }} </a>
+      {% endfor %}
+      <a href="{% url "billboard:create_billboard" %}">Добавить объявление </a>
+    </nav>
+    <main>
+    {% block content %}
+    {% endblock content %}
+    </main>
+  </body>
+</html>
