@@ -18,6 +18,6 @@
   <p>Тип объявления: {{ billboard.get_kind_display }}</p>
 </div>
 <div>
-  <p><a href="">Редактировать объявление</a> <a href="">Удалить объявление</a></p>
+  <p><a href="{% url "billboard:update_billboard" billboard.id %}">Редактировать объявление</a> <a href="{% url "billboard:delete_billboard" billboard.id %}">Удалить объявление</a></p>
 </div>
 {% endblock content %}

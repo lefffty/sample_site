@@ -1,20 +1,43 @@
 {% extends "base.html" %}
 
 {% block title %}
-Доска объявлений
+{% if '/create/' in request.path %}
+Добавление объявления
+{% elif '/edit/' in request.path %}
+Изменение объявления
+{% else %}
+Удаление объявления
+{% endif %}
 {% endblock title %}
 
 {% block header_name %}
+{% if '/create/' in request.path %}
 <h1>Добавление объявления</h1>
+{% elif '/edit/' in request.path %}
+<h1>Изменение объявления</h1>
+{% else %}
+<h1>Удаление объявления</h1>
+{% endif %}
 {% endblock header_name %}
 
 
 {% block content %}
 <form method="post">
     {% csrf_token %}
+    {% if not '/delete/' in request.path %}
     <table>
         {{ form }}
     </table>
-    <input type="submit" value="Добавить">
+    {% else %}
+    <article>
+        <div>
+            <p>{{ form.instance.title }}</p>
+            <p>{{ form.instance.description }}</p>
+            <p>{{ form.instance.price }}</p>
+        </div>
+    </article>
+    {% endif %}
+    
+    <input type="submit" value="Отправить">
 </form>
 {% endblock content %}

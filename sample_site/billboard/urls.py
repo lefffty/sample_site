@@ -24,5 +24,15 @@ urlpatterns = [
         'board/create/',
         views.BillBoardCreateView.as_view(),
         name='create_billboard',
+    ),
+    path(
+        'board/<int:pk>/edit/',
+        views.BillBoardUpdateView.as_view(),
+        name='update_billboard',
+    ),
+    path(
+        'board/<int:pk>/delete/',
+        views.BillBoardDeleteView.as_view(),
+        name='delete_billboard',
     )
 ]

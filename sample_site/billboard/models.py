@@ -62,7 +62,8 @@ class BillBoard(models.Model):
     )
     kind = models.SmallIntegerField(
         choices=Kinds.choices,
-        default=Kinds.__empty__
+        default=Kinds.__empty__,
+        verbose_name='Тип сделки',
     )
     author = models.ForeignKey(
         User,
