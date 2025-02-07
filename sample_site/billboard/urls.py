@@ -5,15 +5,19 @@ from . import views
 app_name = 'billboard'
 
 urlpatterns = [
-    path('', views.index, name='index'),
     path(
-        'boards/<int:billboard_id>/',
-        views.billboard_detail,
+        '',
+        views.BillBoardListView.as_view(),
+        name='index',
+    ),
+    path(
+        'boards/<int:pk>/',
+        views.BillBoardDetailView.as_view(),
         name='billboard_detail',
     ),
     path(
         'boards/<slug:category_name>/',
-        views.category_list,
+        views.CategoryListView.as_view(),
         name='category_bbs',
     ),
     path(
