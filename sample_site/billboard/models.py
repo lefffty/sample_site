@@ -79,3 +79,22 @@ class BillBoard(models.Model):
         verbose_name = 'Объявление'
         verbose_name_plural = 'Объявления'
         ordering = ['category__slug', '-published_at']
+
+
+class Comment(models.Model):
+    billboard = models.ForeignKey(
+        BillBoard,
+        on_delete=models.CASCADE,
+    )
+    text = models.TextField(
+        blank=False,
+        verbose_name='Текст комментария',
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    class Meta:
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'
+        ordering = ('created_at',)

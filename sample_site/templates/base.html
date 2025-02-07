@@ -8,18 +8,13 @@
   </head>
   <body>
     {% block header_name %}{% endblock header_name %}
-    <nav>
-      <a href="{% url "billboard:index" %}">Главная </a>
-      {% for category in categories %}
-        <a href="{% url "billboard:category_bbs" category.slug %}">{{ category.title }} </a>
-      {% endfor %}
-      <a href="{% url "billboard:create_billboard" %}">Добавить объявление </a>
-      <a href="{% url "pages:rules" %}"> Правила использования сайта </a>
-      <a href="{% url "pages:about" %}"> Информация о сайте </a>
-    </nav>
+    {% include "includes/header.html" %}
     <main>
-    {% block content %}
-    {% endblock content %}
+      {% block content %}
+      {% endblock content %}
     </main>
+    <div>
+    {% include "includes/footer.html" %}
+    <div>
   </body>
 </html>

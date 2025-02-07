@@ -20,4 +20,11 @@
 <div>
   <p><a href="{% url "billboard:update_billboard" billboard.id %}">Редактировать объявление</a> <a href="{% url "billboard:delete_billboard" billboard.id %}">Удалить объявление</a></p>
 </div>
+<hr>
+<div>
+  <p>
+    <b>Комментарии ({{ billboard.comment_count }})</b>
+  </p>
+</div>
+{% include "includes/comments.html" %}
 {% endblock content %}

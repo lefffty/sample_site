@@ -19,3 +19,8 @@ nav a {
 main {
   margin-left: 170px;
 }
+
+div {
+  border: 2px;
+  color: black;
+}

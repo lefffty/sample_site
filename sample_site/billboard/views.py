@@ -7,12 +7,14 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
+from django.db.models import Count
 
 from .models import (
     BillBoard,
     Category,
+    Comment,
 )
-from .forms import BillBoardForm
+from .forms import BillBoardForm, CommentForm
 
 
 class BillBoardListView(ListView):
@@ -51,7 +53,19 @@ class BillBoardDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
+        form = CommentForm()
+        context['form'] = form
+        comments = Comment.objects.filter(
+            billboard__exact=self.kwargs['pk']
+        )
+        context['comments'] = comments
         return context
+
+    def get_queryset(self):
+        BillBoard.objects.annotate(
+            comment_count=Count('comment'),
+        )
+        return super().get_queryset()
 
 
 class BillBoardCreateView(CreateView):
@@ -95,4 +109,53 @@ class BillBoardDeleteView(DeleteView):
     def get_success_url(self):
         return reverse_lazy(
             'billboard:create_billboard',
+        )
+
+
+class CommentCreate(CreateView):
+    model = Comment
+    form_class = CommentForm
+
+    def get_success_url(self):
+        return reverse_lazy(
+            'billboard:billboard_detail',
+            kwargs={
+                'pk': self.kwargs['pk'],
+            }
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        return context
+
+    def form_valid(self, form):
+        form.instance.billboard_id = self.kwargs['pk']
+        return super().form_valid(form)
+
+
+class CommentUpdate(UpdateView):
+    model = Comment
+    form_class = CommentForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        return context
+
+
+class CommentDelete(DeleteView):
+    model = Comment
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        return context
+
+    def get_success_url(self):
+        return reverse_lazy(
+            'billboard:create_billboard',
+            kwargs={
+                'pk': self.kwargs['pk']
+            }
         )

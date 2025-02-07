@@ -1,0 +1,15 @@
+{% block content %}
+<form method="post" action="{% url 'billboard:create_comment' billboard.id %}">
+  {% csrf_token %}
+  <table>
+    {{ form }}
+  </table>
+  <input type="submit" value="Добавить" />
+</form>
+<hr>
+{% for comment in comments %}
+<div>
+  <p>комментарий {{ comment.id }}:</p>
+  <p>{{ comment.text }}</p>
+</div>
+{% endfor %} {% endblock content %}
