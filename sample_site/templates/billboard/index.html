@@ -20,7 +20,7 @@
         >
       </p>
       <p>Опубликовано: {{ billboard.published_at|date:"d.m.Y H:i:s" }}</p>
-      <a href="{% url "billboard:billboard_detail" billboard.id %}">Подробнее</a>
+      <a href="{% url "billboard:billboard_detail" billboard.id %}">{{ billboard.content|truncatewords:10 }} </a>
       <hr>
     </div>
 {% endfor %}
