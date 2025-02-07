@@ -1,14 +1,20 @@
-{% extends "layout/base.html" %}
+{% extends "base.html" %}
 
 {% block title %}
-{{ category_name }} :: Доска объявлений
+{{ category }} :: Доска объявлений
 {% endblock title %}
 
 {% block header_name %}
-<h1>Объявления в категории {{ category_name}} </h1>
+<h1>Объявления в категории {{ category.title }} </h1>
 {% endblock header_name %}
 
 {% block content %}
+<div>
+  <h2> Описание категории </h2>
+  <p>{{ category.description }} </p>
+  <hr>
+  <hr>
+</div>
 {% for billboard in billboards %}
 <div>
   <hr>

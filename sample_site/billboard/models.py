@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
+from .validators import validate_price, validate_title
+
 
 User = get_user_model()
 
@@ -15,6 +17,9 @@ class Category(models.Model):
         unique=True,
         blank=False,
         verbose_name='Идентификатор',
+    )
+    description = models.TextField(
+        verbose_name='Описание категории',
     )
 
     class Meta:
@@ -34,9 +39,16 @@ class BillBoard(models.Model):
         RENT = 4, 'Аренда'
         __empty__ = 'Выберите тип публикуемого объявления'
 
-    title = models.CharField(max_length=50, verbose_name='Объявление')
+    title = models.CharField(
+        max_length=50,
+        verbose_name='Объявление',
+        validators=[validate_title],
+    )
     content = models.TextField(verbose_name='Описание')
-    price = models.FloatField(verbose_name='Цена')
+    price = models.FloatField(
+        verbose_name='Цена',
+        validators=[validate_price],
+    )
     published_at = models.DateTimeField(
         auto_now_add=True,
         db_index=True,

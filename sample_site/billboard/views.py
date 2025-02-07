@@ -1,13 +1,13 @@
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpRequest
 from django.views.generic import CreateView
 
 from .models import BillBoard, Category
 from .forms import BillBoardForm
 
 
-def index(request) -> HttpResponse:
+def index(request: HttpRequest) -> HttpResponse:
     categories = Category.objects.all()
     billboards = BillBoard.objects.all()
 
@@ -23,17 +23,17 @@ def index(request) -> HttpResponse:
     )
 
 
-def category_list(request, category_name) -> HttpResponse:
+def category_list(request: HttpRequest, category_name) -> HttpResponse:
     category_nm = get_object_or_404(
         Category,
         slug__exact=category_name,
-    ).title
+    )
     categories = Category.objects.all()
     billboards = BillBoard.objects.filter(
         category__slug__exact=category_name,
     )
     context = {
-        'category_name': category_nm,
+        'category': category_nm,
         'billboards': billboards,
         'categories': categories,
     }
@@ -44,7 +44,7 @@ def category_list(request, category_name) -> HttpResponse:
     )
 
 
-def billboard_detail(request, billboard_id):
+def billboard_detail(request: HttpRequest, billboard_id) -> HttpResponse:
     billboard = get_object_or_404(
         BillBoard,
         pk=billboard_id,
