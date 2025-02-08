@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.core import validators
 
 from .validators import validate_price, validate_title
 
@@ -73,6 +74,20 @@ class BillBoard(models.Model):
         on_delete=models.CASCADE,
         null=True,
         verbose_name='Автор объявления',
+    )
+    image = models.ImageField(
+        blank=True,
+        default='static_dev/img/no_content.jpg',
+        verbose_name='Изображение',
+        upload_to='images/%Y/%m/%d/',
+        validators=[
+            validators.FileExtensionValidator(
+                allowed_extensions=('jpg', 'png', 'jpeg',)
+            )
+        ],
+        error_messages={
+            'invalid_extension': 'Этот формат не поддерживается'
+        }
     )
 
     def __str__(self):

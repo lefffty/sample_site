@@ -29,6 +29,9 @@ ALLOWED_HOSTS = []
 
 PAGINATE_NUMBER = 2
 
+MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = '/media/'
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -42,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'captcha',
     'django_bootstrap5',
+    'django_cleanup',
 ]
 
 MIDDLEWARE = [
@@ -133,3 +137,7 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = 'billboard:index'
+
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+
+EMAIL_FILE_PATH = BASE_DIR / 'emails'

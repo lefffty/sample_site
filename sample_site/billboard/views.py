@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.core.mail import send_mail
 from django.views.generic import (
     CreateView,
     ListView,
@@ -129,6 +130,16 @@ class BillBoardCreateView(CreateView):
         context['categories'] = Category.objects.all()
         return context
 
+    def form_valid(self, form):
+        title = form.cleaned_data['title']
+        send_mail(
+            subject='Создание объявления',
+            message=f'Вы создали объявление "{title}"!',
+            recipient_list=[f'{title}@sample_site.ru'],
+            from_email='publish_billboard@sample_site.ru'
+        )
+        return super().form_valid(form)
+
 
 class BillBoardUpdateView(UpdateView):
     model = BillBoard
@@ -162,7 +173,6 @@ class BillBoardDeleteView(DeleteView):
 
 class CommentCreate(CreateView):
     model = Comment
-    form_class = CommentForm
 
     def get_success_url(self):
         return reverse_lazy(
@@ -171,6 +181,12 @@ class CommentCreate(CreateView):
                 'pk': self.kwargs['pk'],
             }
         )
+
+    def get_form(self, form_class=CommentForm):
+        form = CommentForm(
+            files=self.request.FILES or None,
+        )
+        return form
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -184,7 +200,6 @@ class CommentCreate(CreateView):
 
 class CommentUpdate(UpdateView):
     model = Comment
-    form_class = CommentForm
     template_name = 'billboard/comment.html'
 
     def get_object(self, queryset=Comment.objects.all()):
@@ -192,6 +207,12 @@ class CommentUpdate(UpdateView):
             pk=self.kwargs['comment_id']
         )
         return comment
+
+    def get_form(self):
+        form = CommentForm(
+            files=self.request.FILES or None,
+        )
+        return form
 
     def get_success_url(self):
         return reverse_lazy(

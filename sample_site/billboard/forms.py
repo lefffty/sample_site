@@ -19,7 +19,7 @@ class BillBoardForm(forms.ModelForm):
 
     class Meta:
         model = BillBoard
-        fields = ('title', 'content', 'price', 'category', 'kind',)
+        fields = ('title', 'content', 'price', 'image', 'category', 'kind',)
 
 
 class CommentForm(forms.ModelForm):
@@ -38,5 +38,9 @@ class BillBoardSearchForm(forms.Form):
         choices=BillBoard.Kinds.choices,
         label='Тип сделки',
     )
-    price_min = forms.FloatField()
-    price_max = forms.FloatField()
+    price_min = forms.FloatField(
+        label='Мин. цена',
+    )
+    price_max = forms.FloatField(
+        label='Макс. цена',
+    )

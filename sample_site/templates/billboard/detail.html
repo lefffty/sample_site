@@ -11,10 +11,17 @@
 
 {% block content %}
 <div>
-  <h2>Объявлениe {{ billboard.title }}</h2>
+  <h2>{{ billboard.title }}</h2>
   <p>Категория: <a href="{% url "billboard:category_bbs" billboard.category.slug %}">{{ billboard.category.title }}</a></p>
   <p>Описание: {{ billboard.content }}</p>
   <p>Цена: {{ billboard.price|floatformat:'2g' }} руб.</p>
+  {% if billboard.image %}
+  <p>Изображение: 
+    <a href="{{ billboard.image.url }}" target="_blank">
+      <img class="border-3 rounded img-fluid img-thumbnail mb-2 mx-auto d-block" height="200" width="200" align="center" src="{{ billboard.image.url }}">
+    </a>
+  </p>
+  {% endif %}
   <p>Опубликовано: {{ billboard.published_at }}</p>
   <p>Тип объявления: {{ billboard.get_kind_display }}</p>
 </div>
