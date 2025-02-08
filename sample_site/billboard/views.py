@@ -7,6 +7,8 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
+from django.conf import settings
+from django.core.paginator import Paginator
 from django.db.models import Count
 from django.http import HttpRequest, HttpResponse
 
@@ -43,7 +45,13 @@ def search_form_function(request: HttpRequest) -> HttpResponse:
                 kind__exact=bb_kind,
             )
             categories = Category.objects.all()
-            context['billboards'] = billboards
+            paginator = Paginator(
+                billboards,
+                settings.PAGINATE_NUMBER,
+            )
+            page_number = request.GET.get('page')
+            page_obj = paginator.get_page(page_number)
+            context['page_obj'] = page_obj
             context['form'] = search_form
             return render(
                 request,
@@ -53,8 +61,14 @@ def search_form_function(request: HttpRequest) -> HttpResponse:
     else:
         billboards = BillBoard.objects.all()
         search_form = BillBoardSearchForm()
+        paginator = Paginator(
+            billboards,
+            settings.PAGINATE_NUMBER,
+        )
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        context['page_obj'] = page_obj
         context['form'] = search_form
-        context['billboards'] = billboards
     return render(
         request,
         'billboard/index.html',
@@ -62,21 +76,9 @@ def search_form_function(request: HttpRequest) -> HttpResponse:
     )
 
 
-class BillBoardListView(ListView):
-    template_name = 'billboard/index.html'
-    context_object_name = 'billboards'
-    model = BillBoard
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['categories'] = Category.objects.all()
-
-        return context
-
-
 class CategoryListView(ListView):
+    paginate_by = 2
     template_name = 'billboard/category.html'
-    context_object_name = 'billboards'
 
     def get_queryset(self):
         return BillBoard.objects.filter(
@@ -154,7 +156,7 @@ class BillBoardDeleteView(DeleteView):
 
     def get_success_url(self):
         return reverse_lazy(
-            'billboard:create_billboard',
+            'billboard:index',
         )
 
 
@@ -185,6 +187,12 @@ class CommentUpdate(UpdateView):
     form_class = CommentForm
     template_name = 'billboard/comment.html'
 
+    def get_object(self, queryset=Comment.objects.all()):
+        comment = queryset.get(
+            pk=self.kwargs['comment_id']
+        )
+        return comment
+
     def get_success_url(self):
         return reverse_lazy(
             'billboard:billboard_detail',
@@ -203,6 +211,12 @@ class CommentDelete(DeleteView):
     model = Comment
     template_name = 'billboard/comment.html'
 
+    def get_object(self, queryset=Comment.objects.all()):
+        comment = queryset.get(
+            pk=self.kwargs['comment_id']
+        )
+        return comment
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
@@ -210,7 +224,7 @@ class CommentDelete(DeleteView):
 
     def get_success_url(self):
         return reverse_lazy(
-            'billboard:create_billboard',
+            'billboard:billboard_detail',
             kwargs={
                 'pk': self.kwargs['pk']
             }

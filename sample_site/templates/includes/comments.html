@@ -1,4 +1,9 @@
 {% block content %}
+<div>
+  <p>
+    <b>Комментарии ({{ billboard.comment_count }})</b>
+  </p>
+</div>
 <form method="post" action="{% url 'billboard:create_comment' billboard.id %}">
   {% csrf_token %}
   <table>
@@ -8,11 +13,11 @@
 </form>
 <hr />
 {% for comment in comments %}
-<div class="comment_div">
-  <p><b>Комментарий:</b></p>
+<div>
+  <p><b>Комментарий: {{ comment.id }}</b></p>
   <p> Текст комментария: {{ comment.text }}</p>
   <p> Опубликован: {{ comment.created_at|date:"d.m.Y" }}</p>
-  <a href="{% url "billboard:update_comment" billboard.id comment.id %}" role="button">Отредактировать комментарий</a>
-  <a href="{% url "billboard:delete_comment" billboard.id comment.id %}" role="button">Удалить комментарий</a>
+  <a href="{% url "billboard:update_comment" comment.billboard_id comment.id %}">Отредактировать комментарий</a>
+  <a href="{% url "billboard:delete_comment" comment.billboard_id comment.id %}">Удалить комментарий</a>
 </div>
-{% endfor %} {% endblock content %}
+  {% endfor %} {% endblock content %}

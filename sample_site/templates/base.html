@@ -1,20 +1,21 @@
 {% load static %}
+{% load django_bootstrap5 %}
 <!DOCTYPE html>
-<html>
+<html lang="ru">
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}Главная :: Доска объявлений{% endblock title %}</title>
     <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
+    {% bootstrap_css %}
   </head>
   <body>
     {% block header_name %}{% endblock header_name %}
     {% include "includes/header.html" %}
     <main>
       {% block content %}
-      {% endblock content %}
+      {% endblock %}
     </main>
-    <div class='comment_div'>
     {% include "includes/footer.html" %}
-    <div>
   </body>
 </html>

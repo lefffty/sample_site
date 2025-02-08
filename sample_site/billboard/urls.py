@@ -36,7 +36,7 @@ urlpatterns = [
         name='delete_billboard',
     ),
     path(
-        'board/<int:pk>/comments/create',
+        'board/<int:pk>/comments/create/',
         views.CommentCreate.as_view(),
         name='create_comment',
     ),

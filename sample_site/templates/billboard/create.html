@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load django_bootstrap5 %}
 
 {% block title %}
 {% if '/create/' in request.path %}
@@ -19,24 +20,29 @@
 <h1>Удаление объявления</h1>
 {% endif %}
 {% endblock header_name %}
-
-
 {% block content %}
-<form method="post">
-    {% csrf_token %}
-    {% if not '/delete/' in request.path %}
-    <table>
-        {{ form }}
-    </table>
-    {% else %}
-    <article>
-        <div>
-            <p>{{ form.instance.title }}</p>
-            <p>{{ form.instance.description }}</p>
-            <p>{{ form.instance.price }}</p>
+<div class="col d-flex justify-content-center">
+    <div class="card" style="width: 40rem;">
+      <div class="card-header">
+          <div class="card-body">
+              <form method="post">
+                {% csrf_token %}
+                {% if not '/delete/' in request.path %}
+                <table>
+                    {% bootstrap_form form %}
+                </table>
+                {% else %}
+                <article>
+                    <div>
+                        <p>{{ billboard.title }}</p>
+                        <p>{{ billboard.content }}</p>
+                        <p>{{ billboard.price }}</p>
+                    </div>
+                </article>
+                {% endif %}
+                <input type="submit" value="Отправить">
+            </form>
         </div>
-    </article>
-    {% endif %}
-    <input type="submit" value="Отправить">
-</form>
+    </div>
+</div>
 {% endblock content %}

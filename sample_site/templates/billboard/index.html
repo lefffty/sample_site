@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load django_bootstrap5 %}
 
 {% block title %}
 Доска объявлений
@@ -9,7 +10,7 @@
 {% endblock header_name %}
 
 {% block content %}
-{% for billboard in billboards %}
+{% for billboard in page_obj %}
 <div>
   <hr>
   <h2>{{ billboard.title }}</h2>
@@ -25,16 +26,19 @@
   <hr>
 </div>
 {% endfor %}
+<span>
+  <h2>
+    Фильтры
+  </h2>
+  <form method="post">
+    {% csrf_token %}
+    <table>
+      {% bootstrap_form form %}
+    </table>
+    <p><input type="submit" value="Применить фильтры"/></p>
+    <form> 
+</span>
 <div>
-<h2>
-  Фильтры
-</h2>
-<form method="post">
-  {% csrf_token %}
-  <table>
-    {{ form }}
-  </table>
-  <p><input type="submit" value="Применить фильтры"/></p>
-<form> 
+  {% include "includes/paginator.html" %}
 </div>
 {% endblock content %}

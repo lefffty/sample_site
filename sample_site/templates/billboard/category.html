@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load django_bootstrap5 %}
 
 {% block title %}
 {{ category.title }} :: Доска объявлений
@@ -15,7 +16,7 @@
   <hr>
   <hr>
 </div>
-{% for billboard in billboards %}
+{% for billboard in page_obj %}
 <div>
   <hr>
   <h2>{{ billboard.title }}</h2>
@@ -30,4 +31,5 @@
       <hr>
 </div>
 {% endfor %}
+{% include "includes/paginator.html" %}
 {% endblock content %}

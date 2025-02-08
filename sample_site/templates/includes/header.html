@@ -1,29 +1,19 @@
-<nav>
-    <p>
-        <a href="{% url "billboard:index" %}">
-            Главная
-        </a>
-    </p>
-    <p>
-        <a href="{% url "billboard:create_billboard" %}">
-            Добавить объявление
-        </a>
-    </p>
+<nav >
+    <a href="{% url "billboard:index" %}">
+        Главная
+    </a>
+    <a href="{% url "billboard:create_billboard" %}">
+        Добавить объявление
+    </a>
     {% for category in categories %}
-        <p>
-            <a href="{% url "billboard:category_bbs" category.slug %}">
-                {{ category.title }}
-            </a>
-        </p>
+    <a href="{% url "billboard:category_bbs" category.slug %}">
+        {{ category.title }}
+    </a>
     {% endfor %}
-    <p>
-        <a href="{% url "pages:rules" %}">
-            Правила использования сайта
-        </a>
-    </p>
-    <p>
-        <a href="{% url "pages:about" %}">
-            О сайте
-        </a>
-    </p>
-  </nav>
+    <a href="{% url "pages:rules" %}">
+        Правила использования сайта
+    </a>
+    <a href="{% url "pages:about" %}">
+        О сайте
+    </a>    
+</nav>

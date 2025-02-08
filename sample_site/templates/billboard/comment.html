@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load django_bootstrap5 %}
 
 {% block title %}
 {% if '/edit_comment/' in request.path %}
@@ -18,18 +19,25 @@
 
 
 {% block content %}
-<div>
+<div  class="col d-flex justify-content-center">
     <form method="post"
     {% if '/edit_comment/' in request.path %}
     action="{% url 'billboard:update_comment' comment.billboard_id comment.id %}"
     {% endif %}>
     {% csrf_token %}
     {% if not '/delete_comment/' in request.path %}
-    {{ form }} 
+    {% bootstrap_form form %}
     {% else %}
-    <p>{{ comment.text }}</p>
-    {% endif %}
-    <input type="submit" content="Отправить"/>
+    <div class="col d-flex justify-content-center">
+        <div class="card" style="width: 40rem;">
+            <div class="card-body">
+                <p>ID: <b>{{ comment.id }}</b></p>
+                <p>Текст комментария: {{ comment.content }}</p>
+            </div>        
+        </div>
+    </div>
+{% endif %}
+{% bootstrap_button 'Отправить' %}
 </form>
 </div>
 {% endblock content %}
