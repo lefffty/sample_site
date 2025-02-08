@@ -7,7 +7,7 @@ app_name = 'billboard'
 urlpatterns = [
     path(
         '',
-        views.BillBoardListView.as_view(),
+        views.search_form_function,
         name='index',
     ),
     path(
@@ -41,12 +41,12 @@ urlpatterns = [
         name='create_comment',
     ),
     path(
-        'board/<int:pk>/comments/<int:comment_id>/',
+        'board/<int:pk>/edit_comment/<int:comment_id>/',
         views.CommentUpdate.as_view(),
         name='update_comment',
     ),
     path(
-        'board/<int:pk>/comments/<int:comment_id>/',
+        'board/<int:pk>/delete_comment/<int:comment_id>/',
         views.CommentDelete.as_view(),
         name='delete_comment',
     )

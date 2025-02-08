@@ -6,10 +6,12 @@
   </table>
   <input type="submit" value="Добавить" />
 </form>
-<hr>
+<hr />
 {% for comment in comments %}
-<div>
-  <p>комментарий {{ comment.id }}:</p>
+<div class="comment_div">
+  <p><b>Комментарий:</b></p>
   <p>{{ comment.text }}</p>
+  <a href="{% url "billboard:update_comment" billboard.id comment.id %}" role="button">Отредактировать комментарий</a>
+  <a href="{% url "billboard:delete_comment" billboard.id comment.id %}" role="button">Удалить комментарий</a>
 </div>
 {% endfor %} {% endblock content %}

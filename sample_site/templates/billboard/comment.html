@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% if '/edit_comment/' in request.path %}
+Редактирования комментария
+{% else %}
+Удаление комментария
+{% endif %}
+{% endblock title %}
+
+{% block header_name %}
+{% if '/edit_comment/' in request.path %}
+<h1>Редактирование комментария</h1>
+{% else %}
+<h1>Удаление комментария</h1>
+{% endif %}
+{% endblock header_name %}
+
+
+{% block content %}
+<div>
+    <form method="post"
+    {% if '/edit_comment/' in request.path %}
+    action="{% url 'billboard:update_comment' comment.billboard_id comment.id %}"
+    {% endif %}>
+    {% csrf_token %}
+    {% if not '/delete_comment/' in request.path %}
+    {{ form }} 
+    {% else %}
+    <p>{{ comment.text }}</p>
+    {% endif %}
+    <input type="submit" content="Отправить"/>
+</form>
+</div>
+{% endblock content %}
+

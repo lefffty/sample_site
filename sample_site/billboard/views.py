@@ -1,5 +1,5 @@
-from django.shortcuts import render, get_object_or_404
-from django.urls import reverse_lazy, reverse
+from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views.generic import (
     CreateView,
     ListView,
@@ -8,13 +8,53 @@ from django.views.generic import (
     DeleteView,
 )
 from django.db.models import Count
+from django.http import HttpRequest, HttpResponse
 
 from .models import (
     BillBoard,
     Category,
     Comment,
 )
-from .forms import BillBoardForm, CommentForm
+from .forms import (
+    BillBoardForm,
+    CommentForm,
+    BillBoardSearchForm,
+)
+
+
+def search_form_function(request: HttpRequest) -> HttpResponse:
+    if request.method == 'POST':
+        search_form = BillBoardSearchForm(request.POST)
+        if search_form.is_valid():
+            bb_kind = search_form.cleaned_data['billboard_kind']
+            price_min = search_form.cleaned_data['price_min']
+            price_max = search_form.cleaned_data['price_max']
+            billboards = BillBoard.objects.filter(
+                # price__range=(price_min, price_max),
+                billboard_kind__exact=bb_kind,
+            )
+            context = {
+                'billboards': billboards,
+            }
+            return render(
+                request,
+                'billboard/index.html',
+                context,
+            )
+    else:
+        billboards = BillBoard.objects.all()
+        search_form = BillBoardSearchForm()
+    categories = Category.objects.all()
+    context = {
+        'billboards': billboards,
+        'categories': categories,
+        'form': search_form,
+    }
+    return render(
+        request,
+        'billboard/index.html',
+        context,
+    )
 
 
 class BillBoardListView(ListView):
@@ -25,6 +65,7 @@ class BillBoardListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
+
         return context
 
 
@@ -137,6 +178,15 @@ class CommentCreate(CreateView):
 class CommentUpdate(UpdateView):
     model = Comment
     form_class = CommentForm
+    template_name = 'billboard/comment.html'
+
+    def get_success_url(self):
+        return reverse_lazy(
+            'billboard:billboard_detail',
+            kwargs={
+                'pk': self.kwargs['pk'],
+            },
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -146,6 +196,7 @@ class CommentUpdate(UpdateView):
 
 class CommentDelete(DeleteView):
     model = Comment
+    template_name = 'billboard/comment.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
