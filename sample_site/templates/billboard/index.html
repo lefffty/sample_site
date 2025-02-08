@@ -20,14 +20,21 @@
     >
   </p>
   <p>Опубликовано: {{ billboard.published_at|date:"d.m.Y H:i:s" }}</p>
-  <a href="{% url "billboard:billboard_detail" billboard.id %}">{{ billboard.content|truncatewords:10 }} </a>
+  <p>Цена: {{ billboard.price }} руб.</p>
+  <a href="{% url "billboard:billboard_detail" billboard.id %}">Подробнее</a>
   <hr>
 </div>
 {% endfor %}
 <div>
-<form method="get">
-  {{ form }}
-  <input type="submit" value="Применить фильтры"/>
+<h2>
+  Фильтры
+</h2>
+<form method="post">
+  {% csrf_token %}
+  <table>
+    {{ form }}
+  </table>
+  <p><input type="submit" value="Применить фильтры"/></p>
 <form> 
 </div>
 {% endblock content %}

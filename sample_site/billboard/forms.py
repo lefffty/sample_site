@@ -30,9 +30,13 @@ class CommentForm(forms.ModelForm):
 
 class BillBoardSearchForm(forms.Form):
     field_order = ('')
-    billboard_kind = forms.ModelChoiceField(
+    billboard_category = forms.ModelChoiceField(
         queryset=Category.objects.all(),
         label='Категория товара',
+    )
+    billboard_kind = forms.ChoiceField(
+        choices=BillBoard.Kinds.choices,
+        label='Тип сделки',
     )
     price_min = forms.FloatField()
     price_max = forms.FloatField()

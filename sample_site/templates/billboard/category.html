@@ -5,12 +5,12 @@
 {% endblock title %}
 
 {% block header_name %}
-<h1>Объявления в категории {{ category.title }} </h1>
+<h1>Объявления в категории "{{ category.title }}" </h1>
 {% endblock header_name %}
 
 {% block content %}
 <div>
-  <h2> Описание категории </h2>
+  <h2> Описание категории "{{ category.title }}" </h2>
   <p>{{ category.description }} </p>
   <hr>
   <hr>

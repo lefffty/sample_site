@@ -10,7 +10,8 @@
 {% for comment in comments %}
 <div class="comment_div">
   <p><b>Комментарий:</b></p>
-  <p>{{ comment.text }}</p>
+  <p> Текст комментария: {{ comment.text }}</p>
+  <p> Опубликован: {{ comment.created_at|date:"d.m.Y" }}</p>
   <a href="{% url "billboard:update_comment" billboard.id comment.id %}" role="button">Отредактировать комментарий</a>
   <a href="{% url "billboard:delete_comment" billboard.id comment.id %}" role="button">Удалить комментарий</a>
 </div>

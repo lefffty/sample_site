@@ -23,19 +23,28 @@ from .forms import (
 
 
 def search_form_function(request: HttpRequest) -> HttpResponse:
+    categories = Category.objects.all()
+    context = {
+        'categories': categories,
+    }
     if request.method == 'POST':
         search_form = BillBoardSearchForm(request.POST)
         if search_form.is_valid():
-            bb_kind = search_form.cleaned_data['billboard_kind']
+            bb_category = search_form.cleaned_data['billboard_category']
             price_min = search_form.cleaned_data['price_min']
             price_max = search_form.cleaned_data['price_max']
-            billboards = BillBoard.objects.filter(
-                # price__range=(price_min, price_max),
-                billboard_kind__exact=bb_kind,
+            bb_kind = search_form.cleaned_data['billboard_kind']
+            category = Category.objects.get(
+                title=bb_category,
             )
-            context = {
-                'billboards': billboards,
-            }
+            billboards = BillBoard.objects.filter(
+                price__range=(price_min, price_max),
+                category__slug__exact=category.slug,
+                kind__exact=bb_kind,
+            )
+            categories = Category.objects.all()
+            context['billboards'] = billboards
+            context['form'] = search_form
             return render(
                 request,
                 'billboard/index.html',
@@ -44,12 +53,8 @@ def search_form_function(request: HttpRequest) -> HttpResponse:
     else:
         billboards = BillBoard.objects.all()
         search_form = BillBoardSearchForm()
-    categories = Category.objects.all()
-    context = {
-        'billboards': billboards,
-        'categories': categories,
-        'form': search_form,
-    }
+        context['form'] = search_form
+        context['billboards'] = billboards
     return render(
         request,
         'billboard/index.html',
@@ -91,6 +96,12 @@ class BillBoardDetailView(DetailView):
     template_name = 'billboard/detail.html'
     model = BillBoard
 
+    def get_queryset(self):
+        billboards = BillBoard.objects.annotate(
+            comment_count=Count('comment'),
+        )
+        return billboards
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
@@ -101,12 +112,6 @@ class BillBoardDetailView(DetailView):
         )
         context['comments'] = comments
         return context
-
-    def get_queryset(self):
-        BillBoard.objects.annotate(
-            comment_count=Count('comment'),
-        )
-        return super().get_queryset()
 
 
 class BillBoardCreateView(CreateView):

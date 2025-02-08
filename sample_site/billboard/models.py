@@ -44,7 +44,10 @@ class BillBoard(models.Model):
         verbose_name='Объявление',
         validators=[validate_title],
     )
-    content = models.TextField(verbose_name='Описание')
+    content = models.TextField(
+        verbose_name='Описание',
+        blank=False,
+    )
     price = models.FloatField(
         verbose_name='Цена',
         validators=[validate_price],
