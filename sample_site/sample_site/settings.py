@@ -37,6 +37,7 @@ MEDIA_URL = '/media/'
 INSTALLED_APPS = [
     'billboard.apps.BillboardConfig',
     'pages.apps.PagesConfig',
+    'api.apps.ApiConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -46,6 +47,7 @@ INSTALLED_APPS = [
     'captcha',
     'django_bootstrap5',
     'django_cleanup',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
