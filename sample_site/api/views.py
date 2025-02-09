@@ -3,11 +3,18 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.request import HttpRequest
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
-
 from django.shortcuts import get_object_or_404
 
-from .serializers import BillBoardSerializer, CategorySerializer
-from billboard.models import Category, BillBoard
+from .serializers import (
+    BillBoardSerializer,
+    CategorySerializer,
+    CommentSerializer,
+)
+from billboard.models import (
+    Category,
+    BillBoard,
+    Comment,
+)
 
 
 @api_view(['POST', 'GET'])
@@ -116,3 +123,13 @@ def api_billboard_detail(request: HttpRequest, pk):
             billboard.data,
             status=status.HTTP_202_ACCEPTED,
         )
+
+
+@api_view(['GET'])
+def api_comments(request: HttpRequest):
+    comments = Comment.objects.all()
+    serializer = CommentSerializer(comments, many=True)
+    return Response(
+        data=serializer.data,
+        status=status.HTTP_200_OK,
+    )

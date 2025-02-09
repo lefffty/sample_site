@@ -91,7 +91,7 @@ class BillBoard(models.Model):
     )
 
     def __str__(self):
-        return f'Объявление под названием {self.title}'
+        return f'{self.title}'
 
     class Meta:
         verbose_name = 'Объявление'
@@ -102,6 +102,7 @@ class BillBoard(models.Model):
 class Comment(models.Model):
     billboard = models.ForeignKey(
         BillBoard,
+        related_name='comments',
         on_delete=models.CASCADE,
     )
     text = models.TextField(
@@ -116,3 +117,6 @@ class Comment(models.Model):
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'
         ordering = ('-created_at',)
+
+    def __str__(self):
+        return f'{self.text}'

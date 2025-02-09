@@ -5,6 +5,7 @@ from .views import (
     api_category_detail,
     api_billboards,
     api_billboard_detail,
+    api_comments,
 )
 
 
@@ -28,5 +29,10 @@ urlpatterns = [
         'v1/billboard/<int:pk>/',
         api_billboard_detail,
         name='api-billboard-detail',
+    ),
+    path(
+        'v1/comments/',
+        api_comments,
+        name='api-comments',
     )
 ]
