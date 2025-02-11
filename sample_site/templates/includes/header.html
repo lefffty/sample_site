@@ -20,9 +20,10 @@
     <a href="{% url "billboard:profile" user.username %}">
         {{ user.username }}
     </a>
-    <a href="{% url "logout" %}">
-        Выйти
-    </a>
+    <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
     {% else %}
     <a href="{% url "login" %}">
         Войти
