@@ -1,9 +1,24 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.core import validators
+# from django.contrib.auth.models import AbstractUser
 
 from .validators import validate_price, validate_title
 
+
+# class AdvUser(AbstractUser):
+#     is_activated = models.BooleanField(
+#         default=True,
+#         db_index=True,
+#         verbose_name='Прошел активацию?',
+#     )
+#     send_messages = models.BooleanField(
+#         default=True,
+#         verbose_name='Слать оповещения о новых комментариях?',
+#     )
+
+#     class Meta(AbstractUser.Meta):
+#         pass
 
 User = get_user_model()
 
@@ -111,6 +126,12 @@ class Comment(models.Model):
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
+    )
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        null=False,
+        verbose_name='Автор комментария',
     )
 
     class Meta:

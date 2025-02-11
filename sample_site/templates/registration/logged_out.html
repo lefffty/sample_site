@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}
+Выход
+{% endblock title %}
+
+{% block header_name %}
+<h1>Вы вышли из системы!</h1> 
+{% endblock header_name %}
+
+{% block content %}
+  <div class="col d-flex justify-content-center">
+    <div class="card" style="width: 40rem;">
+      <div class="card-header">
+        Вы вышли из системы!
+      </div>
+      <div class="card-body">
+        <p><a href="{% url 'login' %}">Войти снова</a></p>
+        <p><a href="{% url 'billboard:index' %}">На главную</a></p>
+      </div>
+    </div>
+  </div>
+{% endblock %}

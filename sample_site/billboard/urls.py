@@ -49,5 +49,10 @@ urlpatterns = [
         'board/<int:pk>/delete_comment/<int:comment_id>/',
         views.CommentDelete.as_view(),
         name='delete_comment',
+    ),
+    path(
+        'profile/<slug:username>/',
+        views.profile,
+        name='profile'
     )
 ]

@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
+from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from django.views.generic import (
     CreateView,
@@ -23,6 +24,9 @@ from .forms import (
     CommentForm,
     BillBoardSearchForm,
 )
+
+
+User = get_user_model()
 
 
 def search_form_function(request: HttpRequest) -> HttpResponse:
@@ -77,6 +81,26 @@ def search_form_function(request: HttpRequest) -> HttpResponse:
     )
 
 
+def profile(request: HttpRequest, username):
+    user = get_object_or_404(
+        User,
+        username=username,
+    )
+
+    categories = Category.objects.all()
+
+    context = {
+        'profile': user,
+        'categories': categories,
+    }
+
+    return render(
+        request,
+        'billboard/profile.html',
+        context
+    )
+
+
 class CategoryListView(ListView):
     paginate_by = 2
     template_name = 'billboard/category.html'
@@ -101,7 +125,7 @@ class BillBoardDetailView(DetailView):
 
     def get_queryset(self):
         billboards = BillBoard.objects.annotate(
-            comment_count=Count('comment'),
+            comment_count=Count('comments'),
         )
         return billboards
 
@@ -131,6 +155,8 @@ class BillBoardCreateView(CreateView):
         return context
 
     def form_valid(self, form):
+        form.instance.author = self.request.user
+        form.save()
         title = form.cleaned_data['title']
         send_mail(
             subject='Создание объявления',
@@ -173,6 +199,7 @@ class BillBoardDeleteView(DeleteView):
 
 class CommentCreate(CreateView):
     model = Comment
+    template_name = 'billboard/detail.html'
 
     def get_success_url(self):
         return reverse_lazy(
@@ -184,7 +211,7 @@ class CommentCreate(CreateView):
 
     def get_form(self, form_class=CommentForm):
         form = CommentForm(
-            files=self.request.FILES or None,
+            self.request.POST or None
         )
         return form
 
@@ -194,7 +221,9 @@ class CommentCreate(CreateView):
         return context
 
     def form_valid(self, form):
+        form.instance.author = self.request.user
         form.instance.billboard_id = self.kwargs['pk']
+        form.save()
         return super().form_valid(form)
 
 

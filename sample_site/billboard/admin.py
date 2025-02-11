@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import BillBoard, Category
+from .models import BillBoard, Category, Comment
 
 
 class BillBoardAdmin(admin.ModelAdmin):
@@ -15,5 +15,6 @@ class CategoryAdmin(admin.ModelAdmin):
     search_fields = ('title', 'slug')
 
 
+admin.site.register(Comment)
 admin.site.register(BillBoard, BillBoardAdmin)
 admin.site.register(Category, CategoryAdmin)

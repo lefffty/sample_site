@@ -14,10 +14,13 @@
 <hr />
 {% for comment in comments %}
 <div>
-  <p><b>Комментарий: {{ comment.id }}</b></p>
+  <p><b>Комментарий {{ comment.id }}:</b></p>
+  <p> Автор: <a href="{% url "billboard:profile" comment.author %}" >@{{ comment.author }}</a></p>
   <p> Текст комментария: {{ comment.text }}</p>
   <p> Опубликован: {{ comment.created_at|date:"d.m.Y" }}</p>
+  {% if user == comment.author %}
   <a href="{% url "billboard:update_comment" comment.billboard_id comment.id %}">Отредактировать комментарий</a>
   <a href="{% url "billboard:delete_comment" comment.billboard_id comment.id %}">Удалить комментарий</a>
+  {% endif %}
 </div>
   {% endfor %} {% endblock content %}
