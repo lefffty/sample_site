@@ -1,24 +1,10 @@
 from django.db import models
-from django.contrib.auth import get_user_model
 from django.core import validators
-# from django.contrib.auth.models import AbstractUser
+from django.contrib.auth import get_user_model
+import uuid
 
 from .validators import validate_price, validate_title
 
-
-# class AdvUser(AbstractUser):
-#     is_activated = models.BooleanField(
-#         default=True,
-#         db_index=True,
-#         verbose_name='Прошел активацию?',
-#     )
-#     send_messages = models.BooleanField(
-#         default=True,
-#         verbose_name='Слать оповещения о новых комментариях?',
-#     )
-
-#     class Meta(AbstractUser.Meta):
-#         pass
 
 User = get_user_model()
 
@@ -47,7 +33,42 @@ class Category(models.Model):
         return self.title
 
 
+class Purchase(models.Model):
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+    )
+    buyer = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        null=True,
+        verbose_name='Покупатель',
+        related_name='buyer',
+    )
+    item_name = models.CharField(
+        max_length=50,
+        verbose_name='Объявление',
+    )
+    salesman = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        null=True,
+        verbose_name='Продавец',
+        related_name='salesman',
+    )
+    cost = models.FloatField(
+        verbose_name='Цена',
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        db_index=True,
+        verbose_name='Сделка оформлена',
+    )
+
+
 class BillBoard(models.Model):
+
     class Kinds(models.IntegerChoices):
         BUY = 1, 'Покупка'
         SELL = 2, 'Продажа'
@@ -59,6 +80,11 @@ class BillBoard(models.Model):
         max_length=50,
         verbose_name='Объявление',
         validators=[validate_title],
+    )
+    unique_bb_id = models.UUIDField(
+        primary_key=False,
+        default=uuid.uuid4,
+        editable=False,
     )
     content = models.TextField(
         verbose_name='Описание',

@@ -8,7 +8,6 @@ from .models import (
     Category,
 )
 
-
 User = get_user_model()
 
 

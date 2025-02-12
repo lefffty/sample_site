@@ -4,7 +4,8 @@ from .models import BillBoard, Category, Comment
 
 
 class BillBoardAdmin(admin.ModelAdmin):
-    list_display = ('title', 'category', 'content', 'price', 'published_at', 'kind')
+    list_display = ('title', 'category', 'content',
+                    'price', 'published_at', 'kind')
     list_display_links = ('title', 'content')
     search_fields = ('title', 'content')
 

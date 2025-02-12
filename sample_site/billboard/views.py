@@ -18,6 +18,7 @@ from .models import (
     BillBoard,
     Category,
     Comment,
+    User,
 )
 from .forms import (
     BillBoardForm,
@@ -25,9 +26,6 @@ from .forms import (
     BillBoardSearchForm,
     UserForm,
 )
-
-
-User = get_user_model()
 
 
 def search_form_function(request: HttpRequest) -> HttpResponse:
@@ -214,7 +212,7 @@ class UserCreateView(UpdateView):
         )
         return user
 
-    def get_form(self, form_class=UserForm):
+    def get_form(self, form_class=User):
         instance = self.get_object()
         form = UserForm(
             self.request.POST or None,
