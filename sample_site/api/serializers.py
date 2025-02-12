@@ -3,7 +3,12 @@ from rest_framework.serializers import (
     SerializerMethodField,
     StringRelatedField,
 )
+from django.contrib.auth import get_user_model
+
 from billboard.models import Category, BillBoard, Comment
+
+
+User = get_user_model()
 
 
 class CategorySerializer(ModelSerializer):
@@ -32,3 +37,14 @@ class CommentSerializer(ModelSerializer):
     class Meta:
         model = Comment
         fields = ('text', 'created_at', 'billboard')
+
+
+class UserSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            'first_name',
+            'last_name',
+            'username',
+            'email',
+        )

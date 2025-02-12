@@ -1,38 +1,42 @@
 from django.urls import path
 
-from .views import (
-    api_categories,
-    api_category_detail,
-    api_billboards,
-    api_billboard_detail,
-    api_comments,
-)
+from . import views
 
 
 urlpatterns = [
     path(
         'v1/categories/',
-        api_categories,
+        views.api_categories,
         name='api-categories'
     ),
     path(
         'v1/category/<int:pk>/',
-        api_category_detail,
+        views.api_category_detail,
         name='api-category-detail'
     ),
     path(
         'v1/billboards/',
-        api_billboards,
+        views.api_billboards,
         name='api-billboards',
     ),
     path(
         'v1/billboard/<int:pk>/',
-        api_billboard_detail,
+        views.api_billboard_detail,
         name='api-billboard-detail',
     ),
     path(
         'v1/comments/',
-        api_comments,
+        views.api_comments,
         name='api-comments',
+    ),
+    path(
+        'v1/users/',
+        views.api_users,
+        name='api-users',
+    ),
+    path(
+        'v1/user/<int:pk>/',
+        views.api_user,
+        name='api-user',
     )
 ]
