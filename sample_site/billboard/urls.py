@@ -54,5 +54,10 @@ urlpatterns = [
         'profile/<slug:username>/',
         views.profile,
         name='profile'
+    ),
+    path(
+        'profile/<slug:username>/edit/',
+        views.UserCreateView.as_view(),
+        name='edit_profile',
     )
 ]

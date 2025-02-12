@@ -23,6 +23,7 @@ from .forms import (
     BillBoardForm,
     CommentForm,
     BillBoardSearchForm,
+    UserForm,
 )
 
 
@@ -194,6 +195,34 @@ class BillBoardDeleteView(DeleteView):
     def get_success_url(self):
         return reverse_lazy(
             'billboard:index',
+        )
+
+
+class UserCreateView(UpdateView):
+    model = User
+    template_name = 'billboard/user.html'
+
+    def get_object(self, queryset=User.objects.all()):
+        username = self.kwargs['username']
+        user = User.objects.get(
+            username=username,
+        )
+        return user
+
+    def get_form(self, form_class=UserForm):
+        instance = self.get_object()
+        form = UserForm(
+            self.request.POST or None,
+            instance=instance,
+        )
+        return form
+
+    def get_success_url(self):
+        return reverse_lazy(
+            'billboard:profile',
+            kwargs={
+                'username': self.kwargs['username'],
+            }
         )
 
 

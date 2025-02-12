@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth import get_user_model
 from captcha.fields import CaptchaField
 
 from .models import (
@@ -6,6 +7,9 @@ from .models import (
     Comment,
     Category,
 )
+
+
+User = get_user_model()
 
 
 class BillBoardForm(forms.ModelForm):
@@ -44,3 +48,14 @@ class BillBoardSearchForm(forms.Form):
     price_max = forms.FloatField(
         label='Макс. цена',
     )
+
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = (
+            'first_name',
+            'last_name',
+            'username',
+            'email',
+        )
