@@ -26,7 +26,13 @@
     {% endif %}>
     {% csrf_token %}
     {% if not '/delete_comment/' in request.path %}
-    {% bootstrap_form form %}
+    <div class="col d-flex justify-content-center">
+        <div class="card" style="width: 40rem;">
+            <div class="card-body">
+                {% bootstrap_form form %}
+            </div>        
+        </div>
+    </div>
     {% else %}
     <div class="col d-flex justify-content-center">
         <div class="card" style="width: 40rem;">
@@ -36,9 +42,9 @@
             </div>        
         </div>
     </div>
-{% endif %}
-{% bootstrap_button 'Отправить' %}
-</form>
+    {% endif %}
+    {% bootstrap_button content='Отправить' button_type='submit' %}
+    </form>
 </div>
 {% endblock content %}
 

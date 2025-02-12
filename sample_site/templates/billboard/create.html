@@ -33,11 +33,12 @@
                 </table>
                 {% else %}
                 <article>
+                    <h1>Удалить объявления {{ billboard.title }}?</h1>
                     <div>
-                        <p>{{ billboard.title }}</p>
-                        <p>{{ billboard.content }}</p>
-                        <p>{{ billboard.price }}</p>
-                    </div>
+                        <p><b>Название:</b> {{ billboard.title }}</p>
+                        <p><b>Описание:</b> {{ billboard.content }}</p>
+                        <p><b>Цена:</b> {{ billboard.price }}</p>
+                    </div>  
                 </article>
                 {% endif %}
                 <input type="submit" value="Отправить">

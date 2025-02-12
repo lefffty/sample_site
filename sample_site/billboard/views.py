@@ -237,9 +237,14 @@ class CommentUpdate(UpdateView):
         )
         return comment
 
-    def get_form(self):
+    def get_form(self, form_class=CommentForm):
+        comment_id = self.kwargs['comment_id']
+        instance = Comment.objects.get(
+            pk=comment_id,
+        )
         form = CommentForm(
-            files=self.request.FILES or None,
+            self.request.POST or None,
+            instance=instance,
         )
         return form
 

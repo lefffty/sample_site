@@ -92,7 +92,7 @@ class BillBoard(models.Model):
     )
     image = models.ImageField(
         blank=True,
-        default='static_dev/img/no_content.jpg',
+        default='images/billboard.jpg',
         verbose_name='Изображение',
         upload_to='images/%Y/%m/%d/',
         validators=[
