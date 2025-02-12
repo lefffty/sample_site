@@ -10,25 +10,12 @@
 {% endblock header_name %}
 
 {% block content %}
-<div>
-  <h2>{{ billboard.title }}</h2>
-  <p>Автор: <a href="{% url "billboard:profile" billboard.author.username %}">@{{ billboard.author }}</a></p>
-  <p>Категория: <a href="{% url "billboard:category_bbs" billboard.category.slug %}">{{ billboard.category.title }}</a></p>
-  <p>Описание: {{ billboard.content }}</p>
-  <p>Цена: {{ billboard.price|floatformat:'2g' }} руб.</p>
-  {% if billboard.image %}
-  <p>Изображение: 
-    <a href="{{ billboard.image.url }}" target="_blank">
-      <img class="border-3 rounded img-fluid img-thumbnail mb-2 mx-auto d-block" height="200" width="200" align="center" src="{{ billboard.image.url }}">
-    </a>
-  </p>
-  {% endif %}
-  <p>Опубликовано: {{ billboard.published_at }}</p>
-  <p>Тип объявления: {{ billboard.get_kind_display }}</p>
-</div>
+{% include "includes/billboard_card.html" %}
 {% if user == billboard.author %}
-<div>
-  <p><a href="{% url "billboard:update_billboard" billboard.id %}">Редактировать объявление</a> <a href="{% url "billboard:delete_billboard" billboard.id %}">Удалить объявление</a></p>
+<div class="col d-flex justify-content-center">
+  <p>
+    <a href="{% url "billboard:update_billboard" billboard.id %}" class="card-link">Редактировать объявление</a>
+    <a href="{% url "billboard:delete_billboard" billboard.id %}" class="card-link text-muted">Удалить объявление</a></p>
 </div>
 {% endif %}
 <hr>

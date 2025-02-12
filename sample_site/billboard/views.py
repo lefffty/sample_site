@@ -90,9 +90,14 @@ def profile(request: HttpRequest, username):
 
     categories = Category.objects.all()
 
+    billboards = BillBoard.objects.filter(
+        author=user
+    )
+
     context = {
         'profile': user,
         'categories': categories,
+        'billboards': billboards,
     }
 
     return render(

@@ -1,0 +1,13 @@
+<div class="col d-flex justify-content-center">
+    <div class="card" style="width: 40rem;">
+      <div class="card-body">
+        <h2>{{ billboard.title }}</h2>
+        <p>Автор: <a href="{% url "billboard:profile" billboard.author.username %}">@{{ billboard.author.username }}</a></p>
+        <p>Категория: <a href="{% url 'billboard:category_bbs' billboard.category.slug %}">{{ billboard.category.title }}</a>
+        </p>
+        <p>Опубликовано: {{ billboard.published_at|date:"d.m.Y H:i:s" }}</p>
+        <p>Цена: {{ billboard.price }} руб.</p>
+        <a href="{% url "billboard:billboard_detail" billboard.id %}">Подробнее</a>
+      </div>
+    </div>
+  </div>
